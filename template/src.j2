@@ -2,9 +2,9 @@
 
     {% for table in tables_informations %}
         - name : {{ table.table_name }}
-        description : >
-          {{ table.table_description }} 
-        columns:
+          description : >
+            {{ table.table_description }} 
+          columns:
         {% for col in table.columns_infos %}
             - name : {{ col.name }}
               description: >
