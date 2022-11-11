@@ -25,8 +25,13 @@ def main() :
     
     # Loop over tables/Excel sheets
     for table in table_list : 
+        
         # Read excel sheet 
         df = pd.read_excel(excel_path,table)
+        
+        # delete new line
+        df = df.replace(r'\n',' ', regex=True) 
+
         # Get table definition
         table_description = list(df[table_description_field])[0]
         # select only columns informations
@@ -42,22 +47,22 @@ def main() :
             "columns_infos" : renamed_colums_infos 
         })
         
-        # get template file
-        env = Environment(loader = FileSystemLoader('./template'),   
-                        trim_blocks=True, lstrip_blocks=True)
+    # get template file
+    env = Environment(loader = FileSystemLoader('./template'),   
+                    trim_blocks=True, lstrip_blocks=True)
 
-        template = env.get_template('src.j2')
+    template = env.get_template('src.j2')
 
+
+    f = open('result.yml','a')
+
+    # Append generated text from template
+    f.write(
         
-        f = open('result.yml','a')
-
-        # Append generated text from template
-        f.write(
-            
-            template.render(
-                tables_informations = tables_informations
-                )
-        )
+        template.render(
+            tables_informations = tables_informations
+            )
+)
 
 if __name__ == '__main__':
   main()
